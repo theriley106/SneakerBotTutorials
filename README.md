@@ -1,4 +1,4 @@
-[![N|Solid](pic.jpg)](#)
+[![N|Solid](static/yeezy.jpg)](#)
 
 # **REVAMPING THE SNEAKER BOT (UPDATED 10/16/17)**
 
