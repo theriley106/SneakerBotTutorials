@@ -18,6 +18,7 @@ def grabScreenSize(proxy):
 		headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 		driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=https'])
 		#driver = webdriver.PhantomJS()
+		driver.set_page_load_timeout(10)
 		driver.get('https://www.privateinternetaccess.com/pages/whats-my-ip/')
 		driver.save_screenshot('{}.png'.format(proxy.replace(':', '').replace('.', '')))
 		driver.close()
