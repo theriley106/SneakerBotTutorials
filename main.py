@@ -50,6 +50,3 @@ def openWindow(url, c):
 	driver.get('http://www.investopedia.com/simulator/trade/tradestock.aspx')
 	driver.add_cookie(driver.add_cookie({'name': c.name, 'value': c.value, 'path': c.path, 'expiry': c.expires}))
 	driver.get('http://www.investopedia.com/simulator/trade/tradestock.aspx')
-
-cookie = MakeTrade('tsla', 2, 'lambertcr@my.gvltec.edu', 'dogzzz106')
-openWindow('http://www.investopedia.com/simulator/portfolio/', cookie)
