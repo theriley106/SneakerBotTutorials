@@ -40,7 +40,7 @@ def grabSS(proxy):
 			cookies_list = driver.get_cookies()
 			driver.close()
 			driver.quit()
-			driver = webdriver.Firefox()
+			driver = webdriver.Firefox(service_args=['--proxy={}'.format(proxy), '--proxy-type=https'])
 			for cookie in cookies_list:
 				driver.add_cookie(cookie)
 				#converts phantomjs cookies into firefox webdriver to check out
