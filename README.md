@@ -10,4 +10,4 @@ After the release I will create an update to my Youtube Series with a tutorial t
 
 ## Which Proxies to Buy
 
-<img src="static/proxy1.jpg" alt="Drawing" style="width: 200px;"/>
+<img src="static/proxy1.jpg" style="width: 200px;"/>
