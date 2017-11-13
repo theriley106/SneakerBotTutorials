@@ -10,4 +10,6 @@ After the release I will create an update to my Youtube Series with a tutorial t
 
 ## Which Proxies to Buy
 
+![](static/proxy1.png)
+
 <img src="static/proxy1.jpg" style="width: 200px;"/>
