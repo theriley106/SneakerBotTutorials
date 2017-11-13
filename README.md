@@ -7,3 +7,7 @@ Over the next month or so leading up to the release of the [Semi-Frozen Yellow](
 After the release I will create an update to my Youtube Series with a tutorial to reproduce the results.
 
 # [CLICK HERE TO GET PROXIES](https://stormproxies.com/clients/aff/go/Christopherlambert106)
+
+## Which Proxies to Buy
+
+<img src="static/proxy1.jpg" alt="Drawing" style="width: 200px;"/>
