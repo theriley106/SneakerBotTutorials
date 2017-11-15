@@ -9,7 +9,7 @@ import threading
 import sys
 URL = sys.argv[2]
 PROXIES = sys.argv[2:]
-SPLASHTITLE = grabCurrentTitle(URL)
+
 
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
@@ -51,15 +51,22 @@ def grabSS(proxy):
 			driver.close()
 			driver.quit()
 			driver = webdriver.Firefox(service_args=['--proxy={}'.format(proxy), '--proxy-type=https'])
-			for cookie in cookies_list:
-				driver.add_cookie(cookie)
-				#converts phantomjs cookies into firefox webdriver to check out
+			# you can only set cookies for the driver's current domain so visit the page first then set cookies
 			driver.get(URL)
-
+			# precautionary - delete all cookies first
+			driver.delete_all_cookies()
+			for cookie in cookies_list:
+				# precautionary - prevent possible Exception - can only add cookie for current domain
+				if "adidas" in cookie['domain']:
+					driver.add_cookie(cookie)
+			# once cookies are changed browser must be refreshed
+			driver.refresh()
+			#converts phantomjs cookies into firefox webdriver to check out
 
 		except Exception as exp:
 			print exp
 if __name__ == "__main__":
+	SPLASHTITLE = grabCurrentTitle(URL)
 	threads = [threading.Thread(target=grabSS, args=(proxy,)) for proxy in PROXIES]
 	for thread in threads:
 		thread.start()
