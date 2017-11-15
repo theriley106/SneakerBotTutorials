@@ -10,13 +10,6 @@ import sys
 URL = sys.argv[2]
 PROXIES = sys.argv[2:]
 SPLASHTITLE = grabCurrentTitle(URL)
-class bot(object):
-	def __init__(self, proxy):
-		print('Initiated')
-		self.proxy = proxy
-		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-		self.driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=http'])
-		self.driver.get('https://www.reddit.com/r/cscareerquestions/')
 
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
@@ -26,6 +19,23 @@ def grabCurrentTitle(url):
 	driver.close()
 	driver.quit()
 	return title
+
+def verifyProxy(proxy, timeout=10):
+	#this is to verify that a proxy is working
+	try:
+		requests.get('https://www.google.com/', timeout=timeout)
+	except:
+		return False
+
+class bot(object):
+	def __init__(self, proxy, saveimages=True):
+		print('Initiated')
+		self.proxy = proxy
+		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+		self.driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=http'])
+		self.driver.get('https://www.reddit.com/r/cscareerquestions/')
+
+
 
 def grabSS(proxy):
 	while True:
