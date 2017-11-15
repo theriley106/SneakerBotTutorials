@@ -1,0 +1,147 @@
+﻿
+/*====================================
+ Free To Use For Personal And Commercial Usage
+Author: http://binarytheme.com
+ Share Us if You Like our work 
+ Enjoy Our Codes For Free always.
+======================================*/
+
+/* user image section */
+.user-section {
+    margin-top:20px;
+    font-size:22px;
+    background-color:rgb(83, 163, 163);
+}
+.user-section-inner {
+    height: 65px;
+width: 65px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border-radius: 3px;
+overflow: hidden;
+display: inline-block;
+float: left;
+margin-right: 15px;
+margin-top: 20px;
+}
+    .user-section-inner img {
+        margin-left:10px;
+        width:55px;
+        height:60px;
+        
+    }
+.user-info {
+    display: block;
+    color:#000!important;
+display: inline-block;
+padding: 15px;
+margin-bottom: 0px
+}
+.user-text-online {
+    font-size:18px;
+    color:#fff
+}
+.user-circle-online {
+    width: 15px!important;
+    height: 15px!important;
+}
+
+/* side-menu section */
+.nav > li > a:hover, .nav > li > a:focus {
+    background-color:rgba(74, 72, 126, 0);
+}
+.navbar-top-links  .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #75C5B8;
+}
+.navbar-top-links > li > a {
+color: #FFFFFF;
+}
+.nav > li > a {
+padding: 20px 15px;
+}
+#side-menu {
+    background-color:#04B173;
+}
+
+ #side-menu a {
+            color:#fff;
+           border-bottom: 1px solid #84B899 !important;
+           height: 55px;
+        }
+        .selected {
+            background-color:rgb(83, 163, 163);
+        }
+/* back colors */
+        .blue {
+            background-color:rgb(113, 159, 241);
+        }
+         .green {
+            background-color:rgb(144, 236, 192);
+        }
+          .red {
+            background-color:rgb(255, 102, 133);
+        }
+        .yellow {
+            background-color:rgb(237, 253, 46);
+        }
+
+  /* No border */
+.no-boder {
+    border:0px solid #5bc0de !important;
+}
+/* tap nvbar Section */
+
+#navbar {
+    background-color:rgb(83, 163, 163);
+}
+
+.navbar-brand {
+    padding-left:20px;
+}
+.navbar-brand img {
+    height:30px;
+}
+.top-label {
+    position: absolute;
+top: 50%;
+right: 50%;
+margin-top: -24px;
+margin-right: -24px;
+}
+
+/*large font*/
+.large-font {
+    font-size:18px;
+}
+
+.body-Login-back {
+    background-color:#84B899;
+}
+
+.margin-tips {
+    margin:5px;
+}
+.navbar-default {
+border-color: #27A6BE;
+}
+/*media queries*/
+
+@media(min-width:768px) 
+{
+    #page-wrapper {
+        position: inherit;
+        margin: 0 0 0 250px;
+        padding: 0 30px;
+        min-height: 1000px;
+       
+       
+    }
+
+}
+
+@media(max-width:768px) {
+#wrapper {
+    margin-top:140px!important;
+    
+}
+}
