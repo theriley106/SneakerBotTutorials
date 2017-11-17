@@ -8,7 +8,12 @@ import RandomHeaders
 import threading
 import sys
 URL = sys.argv[2]
-PROXIES = sys.argv[2:]
+if '-r' in str(sys.argv).lower():
+	PROXIES = []
+	with open(str(sys.argv[sys.argv.index('-R')+1])) as f:
+		PROXIES = f.readlines()
+else:
+	PROXIES = sys.argv[2:]
 
 
 def grabCurrentTitle(url):
