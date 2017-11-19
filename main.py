@@ -15,6 +15,15 @@ if '-r' in str(sys.argv).lower():
 else:
 	PROXIES = sys.argv[2:]
 
+def URLGen(model, size):
+	BaseSize = 580
+	#Base Size is for Shoe Size 6.5
+	ShoeSize = size - 6.5
+	ShoeSize = ShoeSize * 20
+	RawSize = ShoeSize + BaseSize
+	ShoeSizeCode = int(RawSize)
+	URL = 'http://www.adidas.com/us/' + str(model) + '.html?forceSelSize=' + str(model) + '_' + str(ShoeSizeCode)
+	return URL
 
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
