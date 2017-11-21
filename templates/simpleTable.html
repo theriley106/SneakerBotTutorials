@@ -25,38 +25,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for proxy in proxyInfo %}
                         <tr>
-                            <td>3326</td>
-                            <td>10/21/2013</td>
-                            <td>3:29 PM</td>
-                            <td>$321.33</td>
+                            <td>proxy.Port</td>
+                            <td>proxy.IP</td>
+                            <td>proxy.ConnectTime</td>
+                            <td>proxy.Ping</td>
                         </tr>
-                        <tr>
-                            <td>3325</td>
-                            <td>10/21/2013</td>
-                            <td>3:20 PM</td>
-                            <td>$234.34</td>
-                        </tr>
-                        <tr>
-                            <td>3324</td>
-                            <td>10/21/2013</td>
-                            <td>3:03 PM</td>
-                            <td>$724.17</td>
-                        </tr>
-                        <tr>
-                            <td>3323</td>
-                            <td>10/21/2013</td>
-                            <td>3:00 PM</td>
-                            <td>$23.71</td>
-                        </tr>
-                        <tr>
-                            <td>3322</td>
-                            <td>10/21/2013</td>
-                            <td>2:49 PM</td>
-                            <td>$8345.23</td>
-                        </tr>
-
-
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
