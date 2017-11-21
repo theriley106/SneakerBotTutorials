@@ -27,10 +27,10 @@
                     <tbody>
                         {% for proxy in proxyInfo %}
                         <tr>
-                            <td>proxy.Port</td>
-                            <td>proxy.IP</td>
-                            <td>proxy.ConnectTime</td>
-                            <td>proxy.Ping</td>
+                            <td>{{ proxy.Port }}</td>
+                            <td>{{ proxy.IP }}</td>
+                            <td>{{ proxy.ConnectTime }}</td>
+                            <td>{{ proxy.Ping }}s</td>
                         </tr>
                         {% endfor %}
                     </tbody>

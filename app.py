@@ -4,8 +4,25 @@ import sys
 import bs4
 import RandomHeaders
 import re
+import urllib
+import time
+from time import gmtime, strftime
 
 app = Flask(__name__)
+
+def getPing(url):
+	#If someone could make a better implementation of this that would be awesome
+	nf = urllib.urlopen(url)
+	start = time.time()
+	page = nf.read()
+	end = time.time()
+	nf.close()
+	return format((end - start), '.5f')
+
+def returnTime():
+	#I know this doesn't adjust for local time - will fix this soon
+	return strftime("%H:%M:%S", gmtime())
+
 
 def returnProxies(csvpath):
 	with open(csvpath, 'rb') as f:
@@ -26,7 +43,20 @@ def getCommits():
 @app.route('/', methods=['GET'])
 def index():
 	gitCommits = getCommits()
-	return render_template("index.html", gitCommits=gitCommits)
+	if len(PROXIES) > 0:
+		info = []
+		for proxy in PROXIES:
+			try:
+				proxyInfo = {}
+				proxyInfo['IP'] = proxy.split(':')[0]
+				proxyInfo['Port'] = proxy.split(':')[1]
+				proxyInfo['Ping'] = getPing('http://www.adidas.com/')
+				proxyInfo['ConnectTime'] = returnTime()
+				info.append(proxyInfo)
+			except:
+				pass
+	print(info)
+	return render_template("index.html", gitCommits=gitCommits, proxyInfo=info)
 
 
 
