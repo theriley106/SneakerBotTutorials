@@ -43,8 +43,8 @@ def getCommits():
 @app.route('/', methods=['GET'])
 def index():
 	gitCommits = getCommits()
+	info = []
 	if len(PROXIES) > 0:
-		info = []
 		for proxy in PROXIES:
 			try:
 				proxyInfo = {}
