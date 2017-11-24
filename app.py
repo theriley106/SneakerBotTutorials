@@ -33,7 +33,7 @@ def getCommits():
 	try:
 		url = 'https://github.com/theriley106/SneakerBotTutorials'
 		res = requests.get(url, headers=RandomHeaders.LoadHeader())
-		page = bs4.BeautifulSoup(res.text)
+		page = bs4.BeautifulSoup(res.text, 'lxml')
 		commitsCount = page.select('.commits a')
 		return int(re.findall('\d+', str(commitsCount[0].getText()))[0])
 	except:
