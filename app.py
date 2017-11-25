@@ -11,13 +11,46 @@ from time import gmtime, strftime
 
 app = Flask(__name__)
 
-def getPing(url):
+def configure_proxy_settings(ip, port, username=None, password=None):
+	"""
+	Configuring proxies to pass to request
+	:param ip: The IP address of the proxy you want to connect to ie 127.0.0.1
+	:param port: The port number of the prxy server you are connecting to
+	:param username: The username if requred authentication, need to be accompanied with a `password`.
+	 Will default to None to None if not provided
+	:param password: The password if required for authentication. Needs to be accompanied by a `username`
+	 Will default to None if not provided
+	:return: A dictionary of proxy settings
+	"""
+	proxies = None
+	credentials = ''
+	# If no IP address or port information is passed, in the proxy information will remain `None`
+	# If no proxy information is set, the default settings for the machine will be used
+	if ip is not None and port is not None:
+		# Username and password not necessary
+		if username is not None and password is not None:
+			credentials = '{}:{}@'.format(username, password)
+
+		proxies = {'http': 'http://{credentials}{ip}:{port}'.format(credentials=credentials, ip=ip, port=port),
+				   'https': 'https://{credentials}{ip}:{port}'.format(credentials=credentials, ip=ip, port=port)
+				   }
+
+	return proxies
+
+
+def getPing(url, ip, port):
 	#If someone could make a better implementation of this that would be awesome
-	nf = urllib.urlopen(url)
+	proxies = None
+	proxies = configure_proxy_settings(ip, port)
+	headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
+			   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+			   'Accept-Language': 'en-US,en;q=0.9'
+			   }
 	start = time.time()
-	page = nf.read()
-	end = time.time()
+	nf = requests.get(url, proxies=proxies, headers=headers)
+	page = nf.content
 	nf.close()
+	end = time.time()
 	return format((end - start), '.5f')
 
 def returnTime():
@@ -49,9 +82,11 @@ def index():
 		for proxy in PROXIES:
 			try:
 				proxyInfo = {}
-				proxyInfo['IP'] = proxy.split(':')[0]
-				proxyInfo['Port'] = proxy.split(':')[1]
-				proxyInfo['Ping'] = getPing('http://www.adidas.com/')
+				ip = proxy.split(':')[0]
+				port = proxy.split(':')[1]
+				proxyInfo['IP'] = ip
+				proxyInfo['Port'] = port
+				proxyInfo['Ping'] = getPing('https://www.github.com/', ip=ip, port=port)
 				proxyInfo['ConnectTime'] = returnTime()
 				info.append(proxyInfo)
 			except:
