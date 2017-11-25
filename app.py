@@ -6,6 +6,7 @@ import RandomHeaders
 import re
 import urllib
 import time
+import csv
 from time import gmtime, strftime
 
 app = Flask(__name__)
