@@ -86,7 +86,7 @@ def index():
 				port = proxy.split(':')[1]
 				proxyInfo['IP'] = ip
 				proxyInfo['Port'] = port
-				proxyInfo['Ping'] = getPing('https://www.github.com/', ip=ip, port=port)
+				proxyInfo['Ping'] = getPing('http://www.adidas.com/', ip=ip, port=port)
 				proxyInfo['ConnectTime'] = returnTime()
 				info.append(proxyInfo)
 			except:
