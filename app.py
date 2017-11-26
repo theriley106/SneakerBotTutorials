@@ -73,6 +73,14 @@ def getCommits():
 	except:
 		return "ERROR"
 
+@app.route('/changeHeader', methods=['POST'])
+def headerChange():
+	#this is only printing the headers, but this will eventually change headers
+	print str(list(request.form.items())[0][1])
+	return redirect(url_for('index'))
+	#perhaps it would be better to have default variables set for index, and this will edit default variables?
+	# ie: index(headers=None, url=None, etc)
+
 
 @app.route('/', methods=['GET'])
 def index():
