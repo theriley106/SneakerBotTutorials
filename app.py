@@ -72,7 +72,9 @@ def getCommits():
 		res = requests.get(url, headers=RandomHeaders.LoadHeader())
 		page = bs4.BeautifulSoup(res.text, 'lxml')
 		commitsCount = page.select('.commits a')
-		return int(re.findall('\d+', str(commitsCount[0].getText()))[0])
+		lastUpdate = page.select('relative-time')[0].getText()
+		updateCount = int(re.findall('\d+', str(commitsCount[0].getText()))[0])
+		return [lastUpdate, updateCount]
 	except:
 		return "ERROR"
 
@@ -89,6 +91,8 @@ def headerChange():
 @app.route('/', methods=['GET'])
 def index():
 	gitCommits = getCommits()
+	lastUpdate = gitCommits[0]
+	gitCommits = gitCommits[1]
 	info = []
 	if len(PROXIES) > 0:
 		for proxy in PROXIES:
@@ -104,7 +108,7 @@ def index():
 			except:
 				pass
 	print(info)
-	return render_template("index.html", gitCommits=gitCommits, proxyInfo=info)
+	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info)
 
 
 
