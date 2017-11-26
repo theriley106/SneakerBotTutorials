@@ -75,7 +75,8 @@ def getCommits():
 		lastUpdate = page.select('relative-time')[0].getText()
 		updateCount = int(re.findall('\d+', str(commitsCount[0].getText()))[0])
 		return [lastUpdate, updateCount]
-	except:
+	except Exception as exp:
+		print exp
 		return "ERROR"
 
 @app.route('/changeHeader', methods=['POST'])
