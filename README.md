@@ -8,7 +8,15 @@ Over the next month or so leading up to the release of the [Semi-Frozen Yellow](
 
 After the release I will create an update to my Youtube Series with a tutorial to reproduce the results.
 
-#
+# Adding Proxies
+
+The ability to add proxies from the command line has been added in the most recent commit.
+
+Main.py will search system arguments for proxies.
+
+Proxy input example:
+
+```python app.py 139.130.4.5:3226 131.150.1.5:4221```
 
 
 
