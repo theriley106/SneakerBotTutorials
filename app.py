@@ -6,10 +6,13 @@ import RandomHeaders
 import re
 import urllib
 import time
+import main
 import csv
 from time import gmtime, strftime
 
 app = Flask(__name__)
+
+bot = main.bot({})
 
 def configure_proxy_settings(ip, port, username=None, password=None):
 	"""
@@ -76,7 +79,8 @@ def getCommits():
 @app.route('/changeHeader', methods=['POST'])
 def headerChange():
 	#this is only printing the headers, but this will eventually change headers
-	print str(list(request.form.items())[0][1])
+	#print str(list(request.form.items())[0][1])
+	bot.updateHeader(str(list(request.form.items())[0][1]))
 	return redirect(url_for('index'))
 	#perhaps it would be better to have default variables set for index, and this will edit default variables?
 	# ie: index(headers=None, url=None, etc)

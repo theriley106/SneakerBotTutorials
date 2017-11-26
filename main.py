@@ -7,13 +7,6 @@ import selenium.webdriver
 import RandomHeaders
 import threading
 import sys
-URL = sys.argv[2]
-if '-r' in str(sys.argv).lower():
-	PROXIES = []
-	with open(str(sys.argv[sys.argv.index('-R')+1])) as f:
-		PROXIES = f.readlines()
-else:
-	PROXIES = sys.argv[2:]
 
 def URLGen(model, size):
 	BaseSize = 580
@@ -54,6 +47,7 @@ class bot(object):
 	def updateHeader(self, userAgent):
 		#placeholder function for proxy change
 		self.headers = {'User-Agent': userAgent}
+		print self.headers
 
 
 
@@ -86,6 +80,14 @@ def grabSS(proxy):
 		except Exception as exp:
 			print exp
 if __name__ == "__main__":
+	
+	URL = sys.argv[2]
+	if '-r' in str(sys.argv).lower():
+		PROXIES = []
+		with open(str(sys.argv[sys.argv.index('-R')+1])) as f:
+			PROXIES = f.readlines()
+	else:
+		PROXIES = sys.argv[2:]
 	SPLASHTITLE = grabCurrentTitle(URL)
 	threads = [threading.Thread(target=grabSS, args=(proxy,)) for proxy in PROXIES]
 	for thread in threads:
