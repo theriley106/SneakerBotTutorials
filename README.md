@@ -16,7 +16,7 @@ Main.py will search system arguments for proxies.
 
 Proxy input example:
 
-```python app.py 139.130.4.5:3226 131.150.1.5:4221```
+```$ python app.py 139.130.4.5:3226 131.150.1.5:4221```
 
 
 
