@@ -42,12 +42,18 @@ def verifyProxy(proxy, timeout=10):
 		return False
 
 class bot(object):
+	#placeholder bot class - will eventually merge a ton of stuff into this
 	def __init__(self, proxy, saveimages=True):
 		print('Initiated')
 		self.proxy = proxy
 		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 		self.driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=http'])
 		self.driver.get('https://www.reddit.com/r/cscareerquestions/')
+		#this is just a placeholder url
+
+	def updateHeader(self, userAgent):
+		#placeholder function for proxy change
+		self.headers = {'User-Agent': userAgent}
 
 
 
