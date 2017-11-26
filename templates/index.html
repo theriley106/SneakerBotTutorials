@@ -13,6 +13,28 @@
     <!-- Page-Level CSS -->
     <link href="{{ url_for('static',filename='plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet" />
    </head>
+   <style>
+   .input-1, .input-2{
+        display: inline-block;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        float: left;
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+        -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+        box-sizing: border-box;         /* Opera/IE 8+ */
+    }
+    .input-1{
+        width: 70%; /* input-1 + input-2 = 100% */
+    }
+    .input-2{
+        width: 30%; /* input-1 + input-2 = 100% */
+    }
+    .input-box{
+        height: 32px; /* Own value - full height */
+        width: 200px; /* Own value - full width */
+    }
+</style>
 <body>
 <div style='width: 95%;margin:0 auto;'>
     <!--  wrapper -->
@@ -38,7 +60,7 @@
                     
                     {% include 'urlGen.html' %}
 
-                    
+
                     {% include 'updateHeaders.html' %}
 
                 </div>

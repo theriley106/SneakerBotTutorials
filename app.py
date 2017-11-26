@@ -13,6 +13,7 @@ from time import gmtime, strftime
 app = Flask(__name__)
 
 bot = main.bot({})
+#This initiates twice -- why??
 
 def configure_proxy_settings(ip, port, username=None, password=None):
 	"""
