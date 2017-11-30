@@ -118,7 +118,8 @@ if __name__ == '__main__':
 	try:
 		bot = main.bot({})
 	except:
-		raise Exception("You need to install PhantomJS")
+		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
+			raise Exception("Install PhantomJS...")
 	PROXIES = []
 	if len(sys.argv) > 1:
 		if '.csv' in str(sys.argv[1]):
