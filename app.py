@@ -12,7 +12,7 @@ from time import gmtime, strftime
 
 app = Flask(__name__)
 
-bot = main.bot({})
+#bot = main.bot({})
 #This initiates twice -- why??
 
 def configure_proxy_settings(ip, port, username=None, password=None):
@@ -115,6 +115,10 @@ def index():
 
 
 if __name__ == '__main__':
+	try:
+		bot = main.bot({})
+	except:
+		raise Exception("You need to install PhantomJS")
 	PROXIES = []
 	if len(sys.argv) > 1:
 		if '.csv' in str(sys.argv[1]):
