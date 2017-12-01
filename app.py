@@ -1,4 +1,5 @@
 import versionCheck
+#^This fixes a really common problem I'm getting  messages about.  It checks for python 2.x
 from flask import Flask, render_template, request, url_for, redirect, Markup, jsonify, make_response, send_from_directory, session
 import requests
 import sys
