@@ -1,3 +1,4 @@
+import versionCheck
 from flask import Flask, render_template, request, url_for, redirect, Markup, jsonify, make_response, send_from_directory, session
 import requests
 import sys
@@ -11,6 +12,9 @@ import csv
 from time import gmtime, strftime
 
 app = Flask(__name__)
+
+
+
 
 #bot = main.bot({})
 #This initiates twice -- why??
@@ -77,7 +81,7 @@ def getCommits():
 		updateCount = int(re.findall('\d+', str(commitsCount[0].getText()))[0])
 		return [lastUpdate, updateCount]
 	except Exception as exp:
-		print exp
+		print(exp)
 		return "ERROR"
 
 @app.route('/changeHeader', methods=['POST'])
