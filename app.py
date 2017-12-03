@@ -94,6 +94,9 @@ def headerChange():
 	#perhaps it would be better to have default variables set for index, and this will edit default variables?
 	# ie: index(headers=None, url=None, etc)
 
+@app.route('/openDriver', methods=['POST'])
+def driverAdd():
+	bot.startAllDrivers()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -103,6 +106,7 @@ def index():
 	info = []
 	if len(PROXIES) > 0:
 		for proxy in PROXIES:
+			print("testing proxy: {}".format(proxy))
 			try:
 				proxyInfo = {}
 				ip = proxy.split(':')[0]
@@ -121,11 +125,11 @@ def index():
 
 if __name__ == '__main__':
 	try:
-		bot = main.bot({})
+		bot = main.bot([{}])
 	except:
 		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
 			raise Exception("Install PhantomJS...")
-	PROXIES = []
+	print("about to make postc")
 	if len(sys.argv) > 1:
 		if '.csv' in str(sys.argv[1]):
 			PROXIES = returnProxies(sys.argv[1])
@@ -133,5 +137,6 @@ if __name__ == '__main__':
 			for proxy in sys.argv[1:]:
 				PROXIES.append(proxy)
 		for proxy in PROXIES:
+			bot.addProxy(proxy)
 			print("Initiating Bot with Proxy: {}".format(proxy))
 	app.run(host='127.0.0.1', port=8000, debug=True)
