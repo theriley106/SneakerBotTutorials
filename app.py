@@ -142,13 +142,7 @@ if __name__ == '__main__':
 	except:
 		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
 			raise Exception("Install PhantomJS...")
-	print("about to make postc")
-	r = requests.post("http://138.197.123.15:8888/proxies/{}".format(open('../../SecretCode.txt').read().strip())).json()
-	PROXIES = r["proxies"][:20]
-	print PROXIES
-	for proxy in PROXIES:
-		bot.addProxy(proxy)
-	'''if len(sys.argv) > 1:
+	if len(sys.argv) > 1:
 		if '.csv' in str(sys.argv[1]):
 			PROXIES = returnProxies(sys.argv[1])
 		if len(sys.argv) > 1 and '.csv' not in str(sys.argv[1]):
@@ -156,5 +150,5 @@ if __name__ == '__main__':
 				PROXIES.append(proxy)
 		for proxy in PROXIES:
 			bot.addProxy(proxy)
-			print("Initiating Bot with Proxy: {}".format(proxy))'''
+			print("Initiating Bot with Proxy: {}".format(proxy))
 	app.run(host='127.0.0.1', port=8000, debug=True)
