@@ -7,6 +7,7 @@ import bs4
 import RandomHeaders
 import re
 import urllib
+import threading
 import time
 import main
 import csv
@@ -47,7 +48,7 @@ def configure_proxy_settings(ip, port, username=None, password=None):
 	return proxies
 
 
-def getPing(url, ip, port):
+def getPing(url, ip, port, timeout=8):
 	#If someone could make a better implementation of this that would be awesome
 	proxies = None
 	proxies = configure_proxy_settings(ip, port)
@@ -56,7 +57,7 @@ def getPing(url, ip, port):
 			   'Accept-Language': 'en-US,en;q=0.9'
 			   }
 	start = time.time()
-	nf = requests.get(url, proxies=proxies, headers=headers)
+	nf = requests.get(url, proxies=proxies, headers=headers, timeout=timeout)
 	page = nf.content
 	nf.close()
 	end = time.time()
@@ -65,6 +66,31 @@ def getPing(url, ip, port):
 def returnTime():
 	#I know this doesn't adjust for local time - will fix this soon
 	return strftime("%H:%M:%S", gmtime())
+
+def massTestProxies(listOfProxies):
+	RESPONSE = []
+	def addToList(proxy):
+		try:
+			print("testing proxy: {}".format(proxy))
+			proxyInfo = {}
+			ip = proxy.partition(":")[0]
+			port = proxy.partition(':')[2]
+			url = 'http://www.adidas.com/'
+			proxyInfo['IP'] = ip
+			proxyInfo['Port'] = port
+			proxyInfo['Ping'] = getPing('http://www.adidas.com/', ip=ip, port=port)
+			proxyInfo['ConnectTime'] = returnTime()
+			RESPONSE.append(proxyInfo)
+		except:
+			print("proxy: {} failed".format(proxy))
+
+
+	threads = [threading.Thread(target=addToList, args=(proxy,)) for proxy in listOfProxies]
+	for thread in threads:
+		thread.start()
+	for thread in threads:
+		thread.join()
+	return RESPONSE
 
 
 def returnProxies(csvpath):
@@ -103,21 +129,8 @@ def index():
 	gitCommits = getCommits()
 	lastUpdate = gitCommits[0]
 	gitCommits = gitCommits[1]
-	info = []
-	if len(PROXIES) > 0:
-		for proxy in PROXIES:
-			print("testing proxy: {}".format(proxy))
-			try:
-				proxyInfo = {}
-				ip = proxy.split(':')[0]
-				port = proxy.split(':')[1]
-				proxyInfo['IP'] = ip
-				proxyInfo['Port'] = port
-				proxyInfo['Ping'] = getPing('http://www.adidas.com/', ip=ip, port=port)
-				proxyInfo['ConnectTime'] = returnTime()
-				info.append(proxyInfo)
-			except:
-				pass
+	info = massTestProxies(PROXIES)
+	
 	print(info)
 	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info)
 
@@ -129,7 +142,6 @@ if __name__ == '__main__':
 	except:
 		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
 			raise Exception("Install PhantomJS...")
-	print("about to make postc")
 	if len(sys.argv) > 1:
 		if '.csv' in str(sys.argv[1]):
 			PROXIES = returnProxies(sys.argv[1])
