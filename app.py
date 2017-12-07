@@ -15,6 +15,8 @@ from time import gmtime, strftime
 
 app = Flask(__name__)
 
+PROXIES = [{}]
+
 
 
 
