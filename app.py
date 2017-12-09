@@ -132,7 +132,7 @@ def index():
 	lastUpdate = gitCommits[0]
 	gitCommits = gitCommits[1]
 	info = massTestProxies(PROXIES)
-	
+	bot.startAllDrivers()
 	print(info)
 	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info)
 
