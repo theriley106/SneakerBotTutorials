@@ -152,7 +152,8 @@ if __name__ == '__main__':
 				PROXIES.append(proxy)
 		if len(sys.argv) == 1:
 			print("It looks like you didn't input any Proxies.")
-			raw_input("It is HIGHLY recommended that you use proxies.  Continue without? [Y/N] ")
+			if raw_input("It is HIGHLY recommended that you use proxies.  Continue without? [Y/N] ").lower() == 'n':
+				raise Exception("Input Proxies...")
 		for proxy in PROXIES:
 			bot.addProxy(proxy)
 			print("Initiating Bot with Proxy: {}".format(proxy))
