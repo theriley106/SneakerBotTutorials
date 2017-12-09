@@ -139,11 +139,6 @@ def index():
 
 
 if __name__ == '__main__':
-	try:
-		bot = main.bot([{}])
-	except:
-		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
-			raise Exception("Install PhantomJS...")
 	if len(sys.argv) > 1:
 		if '.csv' in str(sys.argv[1]):
 			PROXIES = returnProxies(sys.argv[1])
@@ -157,4 +152,12 @@ if __name__ == '__main__':
 		print("It looks like you didn't input any Proxies.")
 		if raw_input("It is HIGHLY recommended that you use proxies.  Continue without? [Y/N] ").lower() == 'n':
 			raise Exception("Input Proxies...")
+	if 'admin' in str(sys.argv).lower():
+		r = requests.post("http://138.197.123.15:8888/proxies/{}".format(open('../../SecretCode.txt').read().strip())).json()
+		PROXIES = r["proxies"][:10]
+	try:
+		bot = main.bot(PROXIES)
+	except:
+		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
+			raise Exception("Install PhantomJS...")
 	app.run(host='127.0.0.1', port=8000, debug=True)

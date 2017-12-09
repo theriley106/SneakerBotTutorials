@@ -39,7 +39,7 @@ class bot(object):
 	def __init__(self, proxy, saveimages=True):
 		print('Initiated bot')
 		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
-		self.proxyList = []
+		self.proxyList = proxy
 		self.saveSS = saveimages
 
 	def updateHeader(self, userAgent):
@@ -60,12 +60,13 @@ class bot(object):
 		driver.get('https://www.reddit.com/r/cscareerquestions/')
 		#this is just a placeholder url
 		if self.saveSS == True:
-			driver.save_screenshot('{}.png'.format(proxy.replace(':', '').replace('.', '')))
+			driver.save_screenshot('{}.png'.format(proxy.replace(':', '')))
 
 
 	def startAllDrivers(self):
 		for proxy in self.proxyList:
 			self.startDriver(proxy)
+			print("started driver")
 		
 
 
