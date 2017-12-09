@@ -1,3 +1,4 @@
 s*.png
 ghostdriver.log
 *.pyc
+*.csv
