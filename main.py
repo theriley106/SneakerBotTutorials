@@ -51,8 +51,11 @@ class bot(object):
 		self.proxyList.append(proxy)
 		print("Successfully added {}".format(proxy))
 
-	def startDriver(self, proxy={}):
-		driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=http'])
+	def startDriver(self, proxy=None):
+		if proxy != None:
+			driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=http'])
+		else:
+			driver = webdriver.PhantomJS()
 		#thsi isn't actually using the header -- fix this soon
 		driver.get('https://www.reddit.com/r/cscareerquestions/')
 		#this is just a placeholder url
