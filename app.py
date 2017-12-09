@@ -150,6 +150,9 @@ if __name__ == '__main__':
 		if len(sys.argv) > 1 and '.csv' not in str(sys.argv[1]):
 			for proxy in sys.argv[1:]:
 				PROXIES.append(proxy)
+		if len(sys.argv) == 1:
+			print("It looks like you didn't input any Proxies.")
+			raw_input("It is HIGHLY recommended that you use proxies.  Continue without? [Y/N] ")
 		for proxy in PROXIES:
 			bot.addProxy(proxy)
 			print("Initiating Bot with Proxy: {}".format(proxy))
