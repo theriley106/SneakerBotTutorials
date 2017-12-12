@@ -8,6 +8,21 @@ import RandomHeaders
 import threading
 import sys
 
+def convertHeadless(driver, url):
+	#converts a phantomjs browser to a firefox webdriver window
+	cookies = driver.get_cookies()
+	#saves cookies as dict
+	driver.Dispose()
+	#closes the phantomjs window
+	driver = webdriver.Firefox()
+	#replaces phantomjs instance with firefox browser
+	driver.get(url)
+	for cookie in cookies:
+		driver.add_cookie(cookie)
+	return driver
+
+
+
 def URLGen(model, size):
 	BaseSize = 580
 	#Base Size is for Shoe Size 6.5
