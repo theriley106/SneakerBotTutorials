@@ -18,14 +18,14 @@ def convertHeadless(driver, url):
 	driver = webdriver.Firefox()
 	#replaces phantomjs instance with firefox browser
 	driver.get(url)
+	# has to go to the url before adding cookies
+	# If you were doing this with shoes - it should show an empty cart
 	for cookie in cookies:
+		#adds cookies to the driver
 		driver.add_cookie(cookie)
 	driver.get(url)
+	# this will reload the url with the cookies you imported
 	return driver
-
-
-
-
 
 def URLGen(model, size):
 	BaseSize = 580
