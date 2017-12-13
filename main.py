@@ -7,6 +7,9 @@ import selenium.webdriver
 import RandomHeaders
 import threading
 import sys
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
 
 
 def convertHeadless(driver, url):
@@ -36,6 +39,25 @@ def URLGen(model, size):
 	ShoeSizeCode = int(RawSize)
 	URL = 'http://www.adidas.com/us/' + str(model) + '.html?forceSelSize=' + str(model) + '_' + str(ShoeSizeCode)
 	return URL
+
+def createHeadlessBrowser(proxy=None, XResolution=700, YResolution=500):
+	dcap = dict(DesiredCapabilities.PHANTOMJS)
+	dcap["phantomjs.page.settings.userAgent"] = (
+	    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
+	    "(KHTML, like Gecko) Chrome/15.0.87")
+	if proxy != None:
+		service_args = [
+	    '--proxy={}'.format(proxy),
+	    '--proxy-type=http',
+	    ]
+		driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
+	else:
+		driver = webdriver.PhantomJS(desired_capabilities=dcap)
+	driver.set_window_size(XResolution,YResolution)
+	return driver
+
+
+
 
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
