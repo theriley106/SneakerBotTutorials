@@ -8,18 +8,22 @@ import RandomHeaders
 import threading
 import sys
 
+
 def convertHeadless(driver, url):
 	#converts a phantomjs browser to a firefox webdriver window
 	cookies = driver.get_cookies()
 	#saves cookies as dict
-	driver.Dispose()
+	driver.quit()
 	#closes the phantomjs window
 	driver = webdriver.Firefox()
 	#replaces phantomjs instance with firefox browser
 	driver.get(url)
 	for cookie in cookies:
 		driver.add_cookie(cookie)
+	driver.get(url)
 	return driver
+
+
 
 
 
