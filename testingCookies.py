@@ -16,12 +16,6 @@ dcap["phantomjs.page.settings.userAgent"] = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
     "(KHTML, like Gecko) Chrome/15.0.87"
 )
-headers = { 'Accept':'*/*',
-    'Accept-Encoding':'gzip, deflate, sdch',
-    'Accept-Language':'en-US,en;q=0.8',
-    'Cache-Control':'max-age=0',
-    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36' }
-
 def convertHeadless(driver, url):
 	#converts a phantomjs browser to a firefox webdriver window
 	cookies = driver.get_cookies()
