@@ -1,13 +1,5 @@
 from selenium import webdriver
-import os
-import requests
-import bs4
-import re
 import selenium.webdriver
-import RandomHeaders
-import threading
-import sys
-import main
 import time
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
