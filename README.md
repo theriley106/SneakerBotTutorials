@@ -27,3 +27,15 @@ Proxy input example:
 [![N|Solid](static/proxy1.png)](#)
 
 [![N|Solid](static/proxy2.png)](#)
+
+## To Do
+
+- Transfer Main.createHeadlessBrowser() headers to main.convertHeadless()
+
+- Add proxy to main.convertHeadless()
+
+- Add Updating Screenshot to index.html
+
+- Add box for "refresh rate" to index.html
+
+- Add some sort of timeout to PhantomJS & Firefox window
