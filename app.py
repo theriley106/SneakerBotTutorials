@@ -143,7 +143,7 @@ def index():
 	info = massTestProxies(PROXIES)
 	print("Done mass test")
 	bot.startAllDrivers()
-	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info, driverInfo=bot.returnDriverInfo())
+	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info, driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies))
 
 
 

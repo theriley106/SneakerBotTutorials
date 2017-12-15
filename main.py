@@ -81,6 +81,9 @@ class bot(object):
 		self.saveSS = saveimages
 		self.driverList = []
 		self.driverInfo = []
+		self.failedProxies = []
+		self.successProxies = []
+		#why are there so many... this is a bad way of doing this
 
 	def updateHeader(self, userAgent):
 		#placeholder function for proxy change
@@ -101,10 +104,11 @@ class bot(object):
 			driver.get(url)
 		except:
 			driver.close()
+			self.failedProxies.append(proxy)
 			return
 		self.driverList.append(driver)
 		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
-		
+		self.successProxies.append(proxy)
 		#this is just a placeholder url
 		if self.saveSS == True:
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))

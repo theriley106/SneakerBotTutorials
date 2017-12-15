@@ -38,7 +38,9 @@
 <body>
 <div style='width: 95%;margin:0 auto;'>
     <!--  wrapper -->
-
+                {% if proxyDiff|float > 0.0 %}
+                  {% include 'diffWarning.html' %}
+                {% endif %}
         
                 <!-- Welcome -->
                 {% include 'topBar.html' %}
