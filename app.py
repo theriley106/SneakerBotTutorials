@@ -20,7 +20,7 @@ PROXIES = []
 
 
 
-#bot = main.bot({})
+bot = main.bot({})
 #This initiates twice -- why??
 
 def configure_proxy_settings(ip, port, username=None, password=None):
