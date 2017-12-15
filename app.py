@@ -130,6 +130,13 @@ def headerChange():
 	#perhaps it would be better to have default variables set for index, and this will edit default variables?
 	# ie: index(headers=None, url=None, etc)
 
+@app.route('/goToURL', methods=['POST'])
+def goToURL():
+	#this is only printing the headers, but this will eventually change headers
+	#print str(list(request.form.items())[0][1])
+	bot.sendAllToURL(url=str(list(request.form.items())[0][1]))
+	return redirect(url_for('useBot'))
+
 @app.route('/openDriver', methods=['POST'])
 def driverAdd():
 	bot.startAllDrivers()

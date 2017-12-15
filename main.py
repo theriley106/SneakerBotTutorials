@@ -107,7 +107,7 @@ class bot(object):
 			driver.close()
 			self.failedProxies.append(proxy)
 			return
-		self.driverList.append(driver)
+		self.driverList.append({'driver': driver, 'proxy': proxy})
 		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
 		self.successProxies.append(proxy)
 		#this is just a placeholder url
@@ -116,10 +116,15 @@ class bot(object):
 		print("started {} driver".format(proxy))
 
 	def goToURL(self, driver, url):
+		proxy = driver['proxy']
+		driver = driver['driver']
 		driver.get(url)
+		if self.saveSS == True:
+			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
+
 
 	def sendAllToURL(self, url):
-		threads = [threading.Thread(target=self.goToURL, args=(url,driver)) for driver in self.driverList]
+		threads = [threading.Thread(target=self.goToURL, args=(driver, url)) for driver in self.driverList]
 		for thread in threads:
 			thread.start()
 		for thread in threads:
