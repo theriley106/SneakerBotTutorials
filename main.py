@@ -97,7 +97,10 @@ class bot(object):
 			driver = createHeadlessBrowser(proxy=proxy)
 		else:
 			driver = createHeadlessBrowser()
-		driver.get(url)
+		try:
+			driver.get(url)
+		except:
+			driver.close()
 		self.driverList.append(driver)
 		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
 		
