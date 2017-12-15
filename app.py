@@ -149,6 +149,9 @@ def index():
 def useBot():
 	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], proxyInfo=sessionInfo['info'], driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies))
 
+@app.route('/test', methods=['GET'])
+def testTemplate():
+	return render_template("index.html", gitCommits=100, lastUpdate='Dec 3', proxyInfo=[{"IP": '41', "Port": '41', "Ping": '132', "ConnectTime": '321'}], driverInfo=[{'proxy': 'proxy', 'driver': 'driver', 'url': 'url', 'useragent': 'self.headers'}], proxyDiff=4)
 
 
 if __name__ == '__main__':
