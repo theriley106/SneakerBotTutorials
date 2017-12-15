@@ -101,6 +101,7 @@ class bot(object):
 			driver.get(url)
 		except:
 			driver.close()
+			return
 		self.driverList.append(driver)
 		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
 		
