@@ -104,17 +104,23 @@ def returnProxies(csvpath):
 		return list(reader)
 
 def getCommits():
-	try:
-		url = 'https://github.com/theriley106/SneakerBotTutorials'
-		res = requests.get(url, headers=RandomHeaders.LoadHeader())
-		page = bs4.BeautifulSoup(res.text, 'lxml')
-		commitsCount = page.select('.commits a')
-		lastUpdate = page.select('relative-time')[0].getText()
-		updateCount = int(re.findall('\d+', str(commitsCount[0].getText()))[0])
-		return [lastUpdate, updateCount]
-	except Exception as exp:
-		print(exp)
-		return "ERROR"
+	for i in range(5):
+		try:
+			url = 'https://github.com/theriley106/SneakerBotTutorials'
+			res = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'})
+			page = bs4.BeautifulSoup(res.text, 'lxml')
+			print page.title.string
+
+			#commitsCount = page.select('.commits a')
+			updateCount = str(page).partition('<span class="num text-emphasized">')[2].partition("<")[0].strip()
+			lastUpdate = page.select('relative-time')[0].getText()
+			#updateCount = int(re.findall('\d+', str(commitsCount[0].getText()))[0])
+			if len(updateCount) > 2:
+				return [lastUpdate, updateCount]
+		except Exception as exp:
+			print exp
+			pass
+	return "ERROR"
 
 @app.route('/changeHeader', methods=['POST'])
 def headerChange():
@@ -132,6 +138,7 @@ def driverAdd():
 @app.route('/', methods=['GET'])
 def index():
 	gitCommits = getCommits()
+	print gitCommits
 	lastUpdate = gitCommits[0]
 	gitCommits = gitCommits[1]
 	info = massTestProxies(PROXIES)
