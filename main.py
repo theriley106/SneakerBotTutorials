@@ -41,7 +41,7 @@ def URLGen(model, size):
 	return URL
 
 def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768):
-	proxy = None
+	#proxy = None
 	dcap = dict(DesiredCapabilities.PHANTOMJS)
 	dcap["phantomjs.page.settings.userAgent"] = (
 	    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.86 Safari/537.36')
