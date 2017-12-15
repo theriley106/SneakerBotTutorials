@@ -97,9 +97,10 @@ class bot(object):
 			driver = createHeadlessBrowser(proxy=proxy)
 		else:
 			driver = createHeadlessBrowser()
+		driver.get(url)
 		self.driverList.append(driver)
 		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
-		driver.get(url)
+		
 		#this is just a placeholder url
 		if self.saveSS == True:
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
