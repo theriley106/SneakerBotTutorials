@@ -59,7 +59,7 @@ def getPing(url, ip, port, timeout=8):
 			   'Accept-Language': 'en-US,en;q=0.9'
 			   }
 	start = time.time()
-	nf = requests.get(url, proxies=proxies, headers=headers, timeout=timeout)
+	nf = requests.get(url, proxies='{}:{}'.format(ip, port), headers=headers, timeout=timeout)
 	page = nf.content
 	nf.close()
 	end = time.time()
@@ -80,11 +80,14 @@ def massTestProxies(listOfProxies):
 			url = 'http://www.adidas.com/'
 			proxyInfo['IP'] = ip
 			proxyInfo['Port'] = port
-			proxyInfo['Ping'] = getPing('http://www.adidas.com/', ip=ip, port=port)
+			proxyInfo['Ping'] = getPing('https://whatismyipaddress.com/', ip=ip, port=port)
 			proxyInfo['ConnectTime'] = returnTime()
 			RESPONSE.append(proxyInfo)
-		except:
+			print("done: {}".format(proxy))
+		except Exception as exp:
+			print exp
 			print("proxy: {} failed".format(proxy))
+		return
 
 
 	threads = [threading.Thread(target=addToList, args=(proxy,)) for proxy in listOfProxies]
@@ -132,6 +135,7 @@ def index():
 	lastUpdate = gitCommits[0]
 	gitCommits = gitCommits[1]
 	info = massTestProxies(PROXIES)
+	print("Done mass test")
 	bot.startAllDrivers()
 	print(info)
 	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info)
@@ -154,7 +158,7 @@ if __name__ == '__main__':
 			raise Exception("Input Proxies...")
 	if 'admin' in str(sys.argv).lower():
 		r = requests.post("http://138.197.123.15:8888/proxies/{}".format(open('../../SecretCode.txt').read().strip())).json()
-		PROXIES = r["proxies"][:10]
+		PROXIES = r["proxies"][-10:]
 	try:
 		bot = main.bot(PROXIES)
 	except:

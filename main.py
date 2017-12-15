@@ -43,14 +43,10 @@ def URLGen(model, size):
 def createHeadlessBrowser(proxy=None, XResolution=700, YResolution=500):
 	dcap = dict(DesiredCapabilities.PHANTOMJS)
 	dcap["phantomjs.page.settings.userAgent"] = (
-	    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/53 "
-	    "(KHTML, like Gecko) Chrome/15.0.87")
+	    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36')
 	if proxy != None:
-		service_args = [
-	    '--proxy={}'.format(proxy),
-	    '--proxy-type=http',
-	    ]
-		driver = webdriver.PhantomJS(desired_capabilities=dcap, service_args=service_args)
+		service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true',]
+		driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap)
 	else:
 		driver = webdriver.PhantomJS(desired_capabilities=dcap)
 	driver.set_window_size(XResolution,YResolution)
@@ -94,18 +90,20 @@ class bot(object):
 
 	def startDriver(self, proxy=None):
 		if proxy != None:
-			driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=http'])
+			driver = createHeadlessBrowser(proxy=proxy)
 		else:
-			driver = webdriver.PhantomJS()
+			driver = createHeadlessBrowser()
 		#thsi isn't actually using the header -- fix this soon
 		driver.get('https://www.reddit.com/r/cscareerquestions/')
 		#this is just a placeholder url
 		if self.saveSS == True:
 			driver.save_screenshot('{}.png'.format(proxy.replace(':', '')))
+		driver.close()
 
 
 	def startAllDrivers(self):
 		for proxy in self.proxyList:
+			print proxy
 			self.startDriver(proxy)
 			print("started driver")
 		
