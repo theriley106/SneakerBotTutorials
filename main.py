@@ -44,7 +44,7 @@ def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768):
 	proxy = None
 	dcap = dict(DesiredCapabilities.PHANTOMJS)
 	dcap["phantomjs.page.settings.userAgent"] = (
-	    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36')
+	    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.86 Safari/537.36')
 	if proxy != None:
 		service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true', '--ssl-protocol=any', '--web-security=false',]
 		driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap)
@@ -75,15 +75,17 @@ def verifyProxy(proxy, timeout=10):
 
 class bot(object):
 	#placeholder bot class - will eventually merge a ton of stuff into this
-	def __init__(self, proxy, saveimages=True):
+	def __init__(self, proxy, saveimages=True, url='https://www.google.com/'):
 		print('Initiated bot')
 		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 		self.proxyList = proxy
+		print(self.proxyList)
 		self.saveSS = saveimages
 		self.driverList = []
 		self.driverInfo = []
 		self.failedProxies = []
 		self.successProxies = []
+		self.targetURL = url
 		#why are there so many... this is a bad way of doing this
 
 
@@ -96,20 +98,20 @@ class bot(object):
 		self.proxyList.append(proxy)
 		print("Successfully added {}".format(proxy))
 
-	def startDriver(self, proxy=None, url='https://www.reddit.com/r/cscareerquestions/'):
+	def startDriver(self, proxy=None):
 		if proxy != None:
 			print proxy
 			driver = createHeadlessBrowser(proxy=proxy)
 		else:
 			driver = createHeadlessBrowser()
 		try:
-			driver.get(url)
+			driver.get(self.targetURL)
 		except:
 			driver.close()
 			self.failedProxies.append(proxy)
 			return
 		self.driverList.append({'driver': driver, 'proxy': proxy})
-		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
+		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': self.targetURL, 'useragent': self.headers})
 		self.successProxies.append(proxy)
 		#this is just a placeholder url
 		if self.saveSS == True:
@@ -117,6 +119,7 @@ class bot(object):
 		print("started {} driver".format(proxy))
 
 	def goToURL(self, driver, url):
+		self.targetURL = url
 		proxy = driver['proxy']
 		driver = driver['driver']
 		driver.get(url)

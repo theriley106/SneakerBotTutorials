@@ -171,7 +171,7 @@ def useBot():
 	for proxy in bot.successProxies:
 		proxyLists.append(proxy.partition(':')[0])
 
-	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], proxyInfo=sessionInfo['info'], driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies), allProxies=proxyLists)
+	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], URL=bot.targetURL, proxyInfo=sessionInfo['info'], driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies), allProxies=proxyLists)
 
 @app.route('/test', methods=['GET'])
 def testTemplate():
