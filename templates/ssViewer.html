@@ -12,8 +12,8 @@
                 <table class="table table-bordered table-hover table-striped">
                     <tbody>
                         <tr>
-                        {% for proxy in proxyInfo %}
-                            <td><img src="/static/{{ proxy.IP }}.png" width="80" height="120"></td>
+                        {% for proxy in allProxies %}
+                            <td><img src="/static/{{ proxy }}.png" width="80" height="120"></td>
                         {% endfor %}
                         </tr>
                     </tbody>

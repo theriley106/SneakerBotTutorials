@@ -14,7 +14,7 @@ import csv
 from time import gmtime, strftime
 
 app = Flask(__name__, static_url_path='/static')
-
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 PROXIES = []
 
 
@@ -22,6 +22,19 @@ sessionInfo = {}
 
 bot = main.bot([])
 #bot is initated with a LIST of STRINGS for proxies... not dicts
+
+# No caching at all for API endpoints.
+@app.after_request
+def add_header(r):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
 
 def configure_proxy_settings(ip, port, username=None, password=None):
 	"""
@@ -154,7 +167,11 @@ def index():
 
 @app.route('/botInfo', methods=['GET'])
 def useBot():
-	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], proxyInfo=sessionInfo['info'], driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies))
+	proxyLists = []
+	for proxy in bot.successProxies:
+		proxyLists.append(proxy.partition(':')[0])
+
+	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], proxyInfo=sessionInfo['info'], driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies), allProxies=proxyLists)
 
 @app.route('/test', methods=['GET'])
 def testTemplate():

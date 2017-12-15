@@ -41,11 +41,12 @@ def URLGen(model, size):
 	return URL
 
 def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768):
+	proxy = None
 	dcap = dict(DesiredCapabilities.PHANTOMJS)
 	dcap["phantomjs.page.settings.userAgent"] = (
 	    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36')
 	if proxy != None:
-		service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true',]
+		service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true', '--ssl-protocol=any', '--web-security=false',]
 		driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap)
 	else:
 		driver = webdriver.PhantomJS(desired_capabilities=dcap)
@@ -119,8 +120,10 @@ class bot(object):
 		proxy = driver['proxy']
 		driver = driver['driver']
 		driver.get(url)
+		print driver.title
 		if self.saveSS == True:
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
+			print("saved screenshot on {} at {}.png".format(driver, proxy.partition(':')[0]))
 
 
 	def sendAllToURL(self, url):
