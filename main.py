@@ -40,7 +40,7 @@ def URLGen(model, size):
 	URL = 'http://www.adidas.com/us/' + str(model) + '.html?forceSelSize=' + str(model) + '_' + str(ShoeSizeCode)
 	return URL
 
-def createHeadlessBrowser(proxy=None, XResolution=700, YResolution=500):
+def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768):
 	dcap = dict(DesiredCapabilities.PHANTOMJS)
 	dcap["phantomjs.page.settings.userAgent"] = (
 	    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36')
@@ -50,6 +50,7 @@ def createHeadlessBrowser(proxy=None, XResolution=700, YResolution=500):
 	else:
 		driver = webdriver.PhantomJS(desired_capabilities=dcap)
 	driver.set_window_size(XResolution,YResolution)
+	driver.set_page_load_timeout(20)
 	return driver
 
 
@@ -78,6 +79,7 @@ class bot(object):
 		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 		self.proxyList = proxy
 		self.saveSS = saveimages
+		self.driverList = []
 
 	def updateHeader(self, userAgent):
 		#placeholder function for proxy change
@@ -90,22 +92,25 @@ class bot(object):
 
 	def startDriver(self, proxy=None):
 		if proxy != None:
+			print proxy
 			driver = createHeadlessBrowser(proxy=proxy)
 		else:
 			driver = createHeadlessBrowser()
+		self.driverList.append(driver)
 		#thsi isn't actually using the header -- fix this soon
 		driver.get('https://www.reddit.com/r/cscareerquestions/')
 		#this is just a placeholder url
 		if self.saveSS == True:
-			driver.save_screenshot('{}.png'.format(proxy.replace(':', '')))
-		driver.close()
+			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
+		print("started {} driver".format(proxy))
 
 
 	def startAllDrivers(self):
-		for proxy in self.proxyList:
-			print proxy
-			self.startDriver(proxy)
-			print("started driver")
+		threads = [threading.Thread(target=self.startDriver, args=(proxy,)) for proxy in self.proxyList]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
 		
 
 
