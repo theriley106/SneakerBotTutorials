@@ -21,14 +21,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                         {% for driver in driverInfo %}
                         <tr>
-                            <td>placeholder</td>
-                            <td>placeholder</td>
-                            <td>placeholder</td>
-                            <td>placeholder</td>
-                            <td>placeholder</td>
-                            <td>placeholder</td>
+                            <td>{{ driver.driver }}</td>
+                            <td>{{ driver.proxy }}</td>
+                            <td>{{ driver.url }}</td>
+                            <td>{{ driver.useragent }}</td>
+                            <td>-</td>
+                            <td>-</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
