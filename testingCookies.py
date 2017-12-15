@@ -23,10 +23,13 @@ def convertHeadless(driver, url):
 	return driver
 
 driver = webdriver.PhantomJS(desired_capabilities=dcap)
-driver.set_window_size(1400,1000)
+driver.set_window_size(700,500)
 driver.get('https://www.amazon.com/dp/047076905X')
 
 driver.find_element_by_id("add-to-cart-button").click()
 
 driver.get('https://www.amazon.com/gp/cart/view.html/ref=nav_cart')
 new = convertHeadless(driver, 'https://www.amazon.com/gp/cart/view.html/ref=nav_cart')
+
+
+

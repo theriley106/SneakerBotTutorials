@@ -160,4 +160,4 @@ if __name__ == '__main__':
 	except:
 		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
 			raise Exception("Install PhantomJS...")
-	app.run(host='127.0.0.1', port=8000, debug=True)
+	app.run(host='127.0.0.1', port=8000)
