@@ -13,7 +13,7 @@ import main
 import csv
 from time import gmtime, strftime
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 PROXIES = []
 
