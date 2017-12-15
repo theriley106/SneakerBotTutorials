@@ -118,7 +118,6 @@ def getCommits():
 			if len(updateCount) > 2:
 				return [lastUpdate, updateCount]
 		except Exception as exp:
-			print exp
 			pass
 	return "ERROR"
 
