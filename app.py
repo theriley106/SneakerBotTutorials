@@ -21,7 +21,7 @@ PROXIES = []
 
 
 bot = main.bot([])
-#This initiates twice -- why??
+#bot is initated with a LIST of STRINGS for proxies... not dicts
 
 def configure_proxy_settings(ip, port, username=None, password=None):
 	"""
