@@ -80,6 +80,7 @@ class bot(object):
 		self.proxyList = proxy
 		self.saveSS = saveimages
 		self.driverList = []
+		self.driverInfo = []
 
 	def updateHeader(self, userAgent):
 		#placeholder function for proxy change
@@ -90,15 +91,15 @@ class bot(object):
 		self.proxyList.append(proxy)
 		print("Successfully added {}".format(proxy))
 
-	def startDriver(self, proxy=None):
+	def startDriver(self, proxy=None, url='https://www.reddit.com/r/cscareerquestions/'):
 		if proxy != None:
 			print proxy
 			driver = createHeadlessBrowser(proxy=proxy)
 		else:
 			driver = createHeadlessBrowser()
 		self.driverList.append(driver)
-		#thsi isn't actually using the header -- fix this soon
-		driver.get('https://www.reddit.com/r/cscareerquestions/')
+		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': url, 'useragent': self.headers})
+		driver.get(url)
 		#this is just a placeholder url
 		if self.saveSS == True:
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
@@ -111,6 +112,10 @@ class bot(object):
 			thread.start()
 		for thread in threads:
 			thread.join()
+
+	def returnDriverInfo(self):
+		return self.driverInfo
+
 		
 
 

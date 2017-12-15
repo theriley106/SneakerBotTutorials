@@ -109,7 +109,7 @@ def getCommits():
 			url = 'https://github.com/theriley106/SneakerBotTutorials'
 			res = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'})
 			page = bs4.BeautifulSoup(res.text, 'lxml')
-			print page.title.string
+			#print page.title.string
 
 			#commitsCount = page.select('.commits a')
 			updateCount = str(page).partition('<span class="num text-emphasized">')[2].partition("<")[0].strip()
@@ -144,8 +144,7 @@ def index():
 	info = massTestProxies(PROXIES)
 	print("Done mass test")
 	bot.startAllDrivers()
-	print(info)
-	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info)
+	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info, driverInfo=bot.returnDriverInfo())
 
 
 
