@@ -18,7 +18,7 @@ app = Flask(__name__, static_url_path='/static')
 PROXIES = []
 
 
-
+sessionInfo = {}
 
 bot = main.bot([])
 #bot is initated with a LIST of STRINGS for proxies... not dicts
@@ -126,7 +126,7 @@ def headerChange():
 	#this is only printing the headers, but this will eventually change headers
 	#print str(list(request.form.items())[0][1])
 	bot.updateHeader(str(list(request.form.items())[0][1]))
-	return redirect(url_for('index'))
+	return redirect(url_for('useBot'))
 	#perhaps it would be better to have default variables set for index, and this will edit default variables?
 	# ie: index(headers=None, url=None, etc)
 
@@ -138,12 +138,16 @@ def driverAdd():
 def index():
 	gitCommits = getCommits()
 	print gitCommits
-	lastUpdate = gitCommits[0]
-	gitCommits = gitCommits[1]
-	info = massTestProxies(PROXIES)
+	sessionInfo['lastUpdate'] = gitCommits[0]
+	sessionInfo['gitCommits'] = gitCommits[1]
+	sessionInfo['info'] = massTestProxies(PROXIES)
 	print("Done mass test")
 	bot.startAllDrivers()
-	return render_template("index.html", gitCommits=gitCommits, lastUpdate=lastUpdate, proxyInfo=info, driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies))
+	return redirect(url_for('useBot'))
+
+@app.route('/botInfo', methods=['GET'])
+def useBot():
+	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], proxyInfo=sessionInfo['info'], driverInfo=bot.returnDriverInfo(), proxyDiff=len(bot.failedProxies))
 
 
 
