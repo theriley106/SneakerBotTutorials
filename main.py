@@ -85,6 +85,7 @@ class bot(object):
 		self.successProxies = []
 		#why are there so many... this is a bad way of doing this
 
+
 	def updateHeader(self, userAgent):
 		#placeholder function for proxy change
 		self.headers = {'User-Agent': userAgent}
@@ -113,6 +114,16 @@ class bot(object):
 		if self.saveSS == True:
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
 		print("started {} driver".format(proxy))
+
+	def goToURL(self, driver, url):
+		driver.get(url)
+
+	def sendAllToURL(self, url):
+		threads = [threading.Thread(target=self.goToURL, args=(url,driver)) for driver in self.driverList]
+		for thread in threads:
+			thread.start()
+		for thread in threads:
+			thread.join()
 
 
 	def startAllDrivers(self):
