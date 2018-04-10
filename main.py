@@ -65,11 +65,17 @@ def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768, timeout
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
 	driver = webdriver.PhantomJS()
+	# Creates new webdriver instance
 	driver.get(url)
+	# Navigates to the user
 	title = driver.title
+	# Gets the title.  eg: Adidas | Page Not Found
 	driver.close()
+	# Closes out the webdriver
 	driver.quit()
+	# Closes out the webdriver
 	return title
+	# Returns the title as a string
 
 def verifyProxy(proxy, timeout=10):
 	#this is to verify that a proxy is working
