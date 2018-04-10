@@ -10,7 +10,7 @@ import sys
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
 def convertHeadless(driver, url):
 	#converts a phantomjs browser to a firefox webdriver window
@@ -91,8 +91,7 @@ def verifyProxy(proxy, timeout=10):
 class bot(object):
 	#placeholder bot class - will eventually merge a ton of stuff into this
 	def __init__(self, proxy, saveimages=True, url='https://www.google.com/'):
-		print('Initiated bot')
-		self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+		self.headers = HEADERS
 		self.proxyList = proxy
 		print(self.proxyList)
 		self.saveSS = saveimages
