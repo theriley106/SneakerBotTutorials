@@ -182,22 +182,27 @@ class bot(object):
 
 
 	def sendAllToURL(self, url):
+		# Sends all of the open instances to a specified URL
 		threads = [threading.Thread(target=self.goToURL, args=(driver, url)) for driver in self.driverList]
+		# Creates a list of threads
 		for thread in threads:
+			# Starts all of them
 			thread.start()
 		for thread in threads:
+			# Joins them together so they exit at the same time
 			thread.join()
 
 
 	def startAllDrivers(self):
+		# Starts up all of the webdriver instances
 		threads = [threading.Thread(target=self.startDriver, args=(proxy,)) for proxy in self.proxyList]
+		# Creates a list of threads
 		for thread in threads:
+			# Starts all of them
 			thread.start()
 		for thread in threads:
+			# Joins them together so they exit at the same time
 			thread.join()
-
-	def returnDriverInfo(self):
-		return self.driverInfo
 
 
 
