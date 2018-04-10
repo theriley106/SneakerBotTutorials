@@ -97,8 +97,13 @@ class bot(object):
 		# This contains all the proxies used by the bot
 		print(self.proxyList)
 		self.saveSS = saveimages
+		# This tells the program to save all screenshots or not
 		self.driverList = []
+		# Contains a list of selenium instances
 		self.driverInfo = []
+		''' Contains a list of python dicts:
+		{'proxy': proxy, 'driver': driver, 'url': self.targetURL, 'useragent': self.headers}
+		'''
 		self.failedProxies = []
 		self.successProxies = []
 		self.targetURL = url
