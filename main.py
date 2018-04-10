@@ -204,21 +204,20 @@ class bot(object):
 			# Joins them together so they exit at the same time
 			thread.join()
 
-
-
-
-
-
 def grabSS(proxy):
 	while True:
 		try:
 			headers = RandomHeaders.LoadHeader()
+			# Generates a random header
 			driver = webdriver.PhantomJS(service_args=['--proxy={}'.format(proxy), '--proxy-type=https'])
-			#driver = webdriver.PhantomJS()
+			# Starts a phantomJS instance with a proxy and random header
 			driver.get(URL)
+			# Navigates to a URL
 			while driver.title == SPLASHTITLE:
+				# This means the driver title matches the title of the target page
+				# ie: the yeezy splash page
 				driver.save_screenshot('{}.png'.format(proxy.replace(':', '').replace('.', '')))
-				#this just visualized the phantomjs driver - you can replace this with pass if you're trying to reduce mem
+				#this just visualizes the phantomjs driver - you can replace this with pass if you're trying to reduce processing
 			cookies_list = driver.get_cookies()
 			driver.close()
 			driver.quit()
@@ -236,7 +235,9 @@ def grabSS(proxy):
 			#converts phantomjs cookies into firefox webdriver to check out
 
 		except Exception as exp:
+			# Problem with the function
 			print exp
+
 if __name__ == "__main__":
 
 	URL = sys.argv[2]
