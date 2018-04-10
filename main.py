@@ -105,7 +105,9 @@ class bot(object):
 		{'proxy': proxy, 'driver': driver, 'url': self.targetURL, 'useragent': self.headers}
 		'''
 		self.failedProxies = []
+		# This is an ongoing list of invalid proxies
 		self.successProxies = []
+		# This is an ongoing list of valid proxies
 		self.targetURL = url
 		#why are there so many... this is a bad way of doing this
 
@@ -139,11 +141,10 @@ class bot(object):
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
 		print("started {} driver".format(proxy))
 
-	def goToURL(self, driver, url):
-		self.targetURL = url
+	def goToURL(self, driver):
 		proxy = driver['proxy']
 		driver = driver['driver']
-		driver.get(url)
+		driver.get(self.targetURL)
 		print driver.title
 		if self.saveSS == True:
 			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
