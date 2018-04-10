@@ -11,6 +11,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+SS_FORMAT = "static/{0}.png"
 
 def convertHeadless(driver, url):
 	#converts a phantomjs browser to a firefox webdriver window
@@ -138,16 +139,21 @@ class bot(object):
 		self.successProxies.append(proxy)
 		#this is just a placeholder url
 		if self.saveSS == True:
-			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
+			driver.save_screenshot(SS_FORMAT.format(proxy.partition(':')[0]))
 		print("started {} driver".format(proxy))
 
 	def goToURL(self, driver):
 		proxy = driver['proxy']
+		# This is the proxy that is used that selenium driver instance
 		driver = driver['driver']
+		# This is the selenium webdriver instance
 		driver.get(self.targetURL)
+		# Goes to the url defined at init
 		print driver.title
+		# Prints the title of the page
 		if self.saveSS == True:
-			driver.save_screenshot('static/{}.png'.format(proxy.partition(':')[0]))
+			driver.save_screenshot(SS_FORMAT.format(proxy.partition(':')[0]))
+			# Saves the screenshot
 			print("saved screenshot on {} at {}.png".format(driver, proxy.partition(':')[0]))
 
 
