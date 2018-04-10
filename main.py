@@ -12,6 +12,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 SS_FORMAT = "static/{0}.png"
+VERBOSE_MODE = False
 
 def convertHeadless(driver, url):
 	#converts a phantomjs browser to a firefox webdriver window
@@ -96,7 +97,9 @@ class bot(object):
 		# Defines the headers that the proxy will use
 		self.proxyList = proxy
 		# This contains all the proxies used by the bot
-		print(self.proxyList)
+		if VERBOSE_MODE == True:
+			print(self.proxyList)
+			# Prints out all of the proxies in proxy list
 		self.saveSS = saveimages
 		# This tells the program to save all screenshots or not
 		self.driverList = []
@@ -116,11 +119,16 @@ class bot(object):
 	def updateHeader(self, userAgent):
 		#placeholder function for proxy change
 		self.headers = {'User-Agent': userAgent}
-		print self.headers
+		if VERBOSE_MODE == True:
+			print self.headers
+			# Prints out the headers used by this driver
 
 	def addProxy(self, proxy):
 		self.proxyList.append(proxy)
-		print("Successfully added {}".format(proxy))
+		# Appends the proxy to the main list of proxies
+		if VERBOSE_MODE == True:
+			print("Successfully added {}".format(proxy))
+			# Prints out the proxy ip
 
 	def startDriver(self, proxy=None):
 		if proxy != None:
@@ -140,7 +148,9 @@ class bot(object):
 		#this is just a placeholder url
 		if self.saveSS == True:
 			driver.save_screenshot(SS_FORMAT.format(proxy.partition(':')[0]))
-		print("started {} driver".format(proxy))
+		if VERBOSE_MODE == True:
+			print("started {} driver".format(proxy))
+			# Prints out the proxy ip for the webdriver instance
 
 	def goToURL(self, driver):
 		proxy = driver['proxy']
@@ -149,12 +159,14 @@ class bot(object):
 		# This is the selenium webdriver instance
 		driver.get(self.targetURL)
 		# Goes to the url defined at init
-		print driver.title
-		# Prints the title of the page
+		if VERBOSE_MODE == True:
+			print driver.title
+			# Prints the title of the page
 		if self.saveSS == True:
 			driver.save_screenshot(SS_FORMAT.format(proxy.partition(':')[0]))
 			# Saves the screenshot
 			print("saved screenshot on {} at {}.png".format(driver, proxy.partition(':')[0]))
+			# This will print regardless of the VERBOSE_MODE constant
 
 
 	def sendAllToURL(self, url):
