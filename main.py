@@ -205,6 +205,7 @@ class bot(object):
 			thread.join()
 
 def grabSS(proxy):
+	#converts phantomjs cookies into firefox webdriver to check out
 	while True:
 		try:
 			headers = RandomHeaders.LoadHeader()
@@ -219,20 +220,27 @@ def grabSS(proxy):
 				driver.save_screenshot('{}.png'.format(proxy.replace(':', '').replace('.', '')))
 				#this just visualizes the phantomjs driver - you can replace this with pass if you're trying to reduce processing
 			cookies_list = driver.get_cookies()
+			# This contains the cookies in the driver
+			# Ideally this would be the point that the driver passes the splash page
 			driver.close()
+			# Closes out this driver
 			driver.quit()
+			# Closes out this driver
 			driver = webdriver.Firefox(service_args=['--proxy={}'.format(proxy), '--proxy-type=https'])
-			# you can only set cookies for the driver's current domain so visit the page first then set cookies
+			# Opens up a new FIREFOX non-Headless browser window that the user can control
 			driver.get(URL)
-			# precautionary - delete all cookies first
+			# Navigate to the same URL
+			# You can only set cookies for the driver's current domain so visit the page first then set cookies
 			driver.delete_all_cookies()
+			# Precautionary - delete all cookies first
 			for cookie in cookies_list:
-				# precautionary - prevent possible Exception - can only add cookie for current domain
+				# Loops through all of the cookies
 				if "adidas" in cookie['domain']:
+					# Only looking for Adidas cookies
 					driver.add_cookie(cookie)
-			# once cookies are changed browser must be refreshed
+					# Adds adidas cookies to the driver
 			driver.refresh()
-			#converts phantomjs cookies into firefox webdriver to check out
+			# once cookies are changed browser must be refreshed
 
 		except Exception as exp:
 			# Problem with the function
