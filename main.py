@@ -31,6 +31,7 @@ def convertHeadless(driver, url):
 	return driver
 
 def URLGen(model, size):
+	# Generates URLs for releases on Adidas.com
 	BaseSize = 580
 	#Base Size is for Shoe Size 6.5
 	ShoeSize = size - 6.5
@@ -40,18 +41,23 @@ def URLGen(model, size):
 	URL = 'http://www.adidas.com/us/' + str(model) + '.html?forceSelSize=' + str(model) + '_' + str(ShoeSizeCode)
 	return URL
 
-def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768):
+def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768, timeout=20):
 	#proxy = None
 	dcap = dict(DesiredCapabilities.PHANTOMJS)
 	dcap["phantomjs.page.settings.userAgent"] = (
 	    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.86 Safari/537.36')
+	# Fake browser headers
 	if proxy != None:
+		# This means the user set a proxy
 		service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true', '--ssl-protocol=any', '--web-security=false',]
 		driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap)
 	else:
+		# No proxy was set by the user
 		driver = webdriver.PhantomJS(desired_capabilities=dcap)
 	driver.set_window_size(XResolution,YResolution)
-	driver.set_page_load_timeout(20)
+	# Sets the screen resolution
+	# Ideally this will be dynamic based on the number of browsers open
+	driver.set_page_load_timeout(timeout)
 	return driver
 
 
@@ -147,7 +153,7 @@ class bot(object):
 	def returnDriverInfo(self):
 		return self.driverInfo
 
-		
+
 
 
 
@@ -181,7 +187,7 @@ def grabSS(proxy):
 		except Exception as exp:
 			print exp
 if __name__ == "__main__":
-	
+
 	URL = sys.argv[2]
 	if '-r' in str(sys.argv).lower():
 		PROXIES = []
