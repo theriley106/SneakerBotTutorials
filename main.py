@@ -78,10 +78,14 @@ def grabCurrentTitle(url):
 	# Returns the title as a string
 
 def verifyProxy(proxy, timeout=10):
-	#this is to verify that a proxy is working
+	# This function is to verify that a proxy is working
 	try:
-		requests.get('https://www.google.com/', timeout=timeout)
+		requests.get('https://www.google.com/', proxy=proxy, timeout=timeout)
+		# Grabs google.com
+		return True
+		# True means the proxy is working
 	except:
+		# This means the .get function failed
 		return False
 
 class bot(object):
