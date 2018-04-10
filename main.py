@@ -58,10 +58,9 @@ def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768, timeout
 	# Sets the screen resolution
 	# Ideally this will be dynamic based on the number of browsers open
 	driver.set_page_load_timeout(timeout)
+	# Sets the timeout for the selenium window
 	return driver
-
-
-
+	# Returns driver instance
 
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
