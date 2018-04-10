@@ -132,22 +132,34 @@ class bot(object):
 
 	def startDriver(self, proxy=None):
 		if proxy != None:
-			print proxy
+			# This means the user defined the proxy on init
 			driver = createHeadlessBrowser(proxy=proxy)
+			# Starts a phantomJS instance with that proxy
 		else:
+			# The user did not define a proxy
 			driver = createHeadlessBrowser()
+			# Creates a phantomJS instance without a proxy
 		try:
+			# Tries to navigate to the URL
 			driver.get(self.targetURL)
 		except:
+			# This means the navigation failed, and the proxy is likely not working
 			driver.close()
+			# Closes out the driver
 			self.failedProxies.append(proxy)
+			# Appends the proxy to the failed proxy list
 			return
+			# Returns none
 		self.driverList.append({'driver': driver, 'proxy': proxy})
+		# Appends the open webdriver instance to driverList
 		self.driverInfo.append({'proxy': proxy, 'driver': driver, 'url': self.targetURL, 'useragent': self.headers})
+		# Appens the open webdriver instance to the driverInfo list
 		self.successProxies.append(proxy)
-		#this is just a placeholder url
+		# This adds the proxy to the list of working proxies
 		if self.saveSS == True:
+			# The program takes a screenshot
 			driver.save_screenshot(SS_FORMAT.format(proxy.partition(':')[0]))
+			# Saves the screenshot locally
 		if VERBOSE_MODE == True:
 			print("started {} driver".format(proxy))
 			# Prints out the proxy ip for the webdriver instance
