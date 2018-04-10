@@ -92,7 +92,9 @@ class bot(object):
 	#placeholder bot class - will eventually merge a ton of stuff into this
 	def __init__(self, proxy, saveimages=True, url='https://www.google.com/'):
 		self.headers = HEADERS
+		# Defines the headers that the proxy will use
 		self.proxyList = proxy
+		# This contains all the proxies used by the bot
 		print(self.proxyList)
 		self.saveSS = saveimages
 		self.driverList = []
