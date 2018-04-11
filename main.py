@@ -247,7 +247,6 @@ def grabSS(proxy):
 			print exp
 
 if __name__ == "__main__":
-
 	URL = sys.argv[2]
 	if '-r' in str(sys.argv).lower():
 		PROXIES = []

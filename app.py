@@ -83,7 +83,9 @@ def returnTime():
 	return strftime("%H:%M:%S", gmtime())
 
 def massTestProxies(listOfProxies):
+	# Tests all proxies in the list of proxies
 	RESPONSE = []
+	# This is a list of python dictionaries containing information about the proxies
 	def addToList(proxy):
 		try:
 			print("testing proxy: {}".format(proxy))
@@ -101,8 +103,6 @@ def massTestProxies(listOfProxies):
 			print exp
 			print("proxy: {} failed".format(proxy))
 		return
-
-
 	threads = [threading.Thread(target=addToList, args=(proxy,)) for proxy in listOfProxies]
 	for thread in threads:
 		thread.start()
@@ -118,17 +118,19 @@ def returnProxies(csvpath):
 
 def getCommits():
 	for i in range(5):
+		# Loops through five times or until it is successful
 		try:
 			url = 'https://github.com/theriley106/SneakerBotTutorials'
 			res = requests.get(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'})
+			# Pulls the page
 			page = bs4.BeautifulSoup(res.text, 'lxml')
-			#print page.title.string
-
-			#commitsCount = page.select('.commits a')
+			# Parses the HTML
 			updateCount = str(page).partition('<span class="num text-emphasized">')[2].partition("<")[0].strip()
+			# This is the element that contains the commit count
 			lastUpdate = page.select('relative-time')[0].getText()
-			#updateCount = int(re.findall('\d+', str(commitsCount[0].getText()))[0])
+			# This is the time of the last update
 			if len(updateCount) > 2:
+				# This means it was successful
 				return [lastUpdate, updateCount]
 		except Exception as exp:
 			pass
@@ -157,7 +159,7 @@ def driverAdd():
 @app.route('/', methods=['GET'])
 def index():
 	gitCommits = getCommits()
-	print gitCommits
+	# Grabs the current amount of Git Commits
 	sessionInfo['lastUpdate'] = gitCommits[0]
 	sessionInfo['gitCommits'] = gitCommits[1]
 	sessionInfo['info'] = massTestProxies(PROXIES)
@@ -170,11 +172,11 @@ def useBot():
 	proxyLists = []
 	for proxy in bot.successProxies:
 		proxyLists.append(proxy.partition(':')[0])
-
 	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], URL=bot.targetURL, proxyInfo=sessionInfo['info'], driverInfo=bot.driverInfo, proxyDiff=len(bot.failedProxies), allProxies=proxyLists)
 
 @app.route('/test', methods=['GET'])
 def testTemplate():
+	# This is just a test page to make sure everything is working properly
 	return render_template("index.html", gitCommits=100, lastUpdate='Dec 3', proxyInfo=[{"IP": '41', "Port": '41', "Ping": '132', "ConnectTime": '321'}], driverInfo=[{'proxy': 'proxy', 'driver': 'driver', 'url': 'url', 'useragent': 'self.headers'}], proxyDiff=4)
 
 
