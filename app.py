@@ -68,7 +68,6 @@ def configure_proxy_settings(ip, port, username=None, password=None):
 
 def getPing(url, ip, port, timeout=8):
 	#If someone could make a better implementation of this that would be awesome
-	proxies = None
 	proxies = configure_proxy_settings(ip, port)
 	headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36',
 			   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -162,6 +161,7 @@ def headerChange():
 	#this is only printing the headers, but this will eventually change headers
 	#print str(list(request.form.items())[0][1])
 	bot.updateHeader(str(list(request.form.items())[0][1]))
+	# Updates header to the one inputted into the site
 	return redirect(url_for('useBot'))
 	#perhaps it would be better to have default variables set for index, and this will edit default variables?
 	# ie: index(headers=None, url=None, etc)
@@ -171,28 +171,38 @@ def goToURL():
 	#this is only printing the headers, but this will eventually change headers
 	#print str(list(request.form.items())[0][1])
 	bot.sendAllToURL(url=str(list(request.form.items())[0][1]))
+	# Send all of the browser windows to the URL inputted into the web app
 	return redirect(url_for('useBot'))
 
 @app.route('/openDriver', methods=['POST'])
 def driverAdd():
+	# Opens all drivers
 	bot.startAllDrivers()
 
 @app.route('/', methods=['GET'])
 def index():
+	# First parge
 	gitCommits = getCommits()
 	# Grabs the current amount of Git Commits
 	sessionInfo['lastUpdate'] = gitCommits[0]
+	# Last commit time
 	sessionInfo['gitCommits'] = gitCommits[1]
+	# Total number of commits
 	sessionInfo['info'] = massTestProxies(PROXIES)
+	# Contains info about the proxies being used
 	print("Done mass test")
 	bot.startAllDrivers()
+	# Starts all drivers
 	return redirect(url_for('useBot'))
 
 @app.route('/botInfo', methods=['GET'])
 def useBot():
 	proxyLists = []
+	# List of the proxies being used
 	for proxy in bot.successProxies:
+		# Goes through a list of all the working proxies
 		proxyLists.append(proxy.partition(':')[0])
+		# Only appends the ip
 	return render_template("index.html", gitCommits=sessionInfo['gitCommits'], lastUpdate=sessionInfo['lastUpdate'], URL=bot.targetURL, proxyInfo=sessionInfo['info'], driverInfo=bot.driverInfo, proxyDiff=len(bot.failedProxies), allProxies=proxyLists)
 
 @app.route('/test', methods=['GET'])
