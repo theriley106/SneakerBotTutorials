@@ -106,13 +106,21 @@ def massTestProxies(listOfProxies):
 			url = TEST_URL
 			# Sets the URL to TEST_URL constant
 			proxyInfo['IP'] = ip
+			# IP Address
 			proxyInfo['Port'] = port
+			# Port Number
 			proxyInfo['Ping'] = getPing('https://whatismyipaddress.com/', ip=ip, port=port)
+			# Sets ping
 			proxyInfo['ConnectTime'] = returnTime()
+			# Time that the proxy was tested
 			RESPONSE.append(proxyInfo)
+			# Appends info
 			print("done: {}".format(proxy))
+			# Output saying the proxy was succesful
 		except Exception as exp:
+			# This means the proxy failed
 			print exp
+			# Prints the exception string
 			print("proxy: {} failed".format(proxy))
 		return
 	threads = [threading.Thread(target=addToList, args=(proxy,)) for proxy in listOfProxies]
@@ -121,7 +129,7 @@ def massTestProxies(listOfProxies):
 	for thread in threads:
 		thread.join()
 	return RESPONSE
-
+	# Returns the list of proxy details
 
 def returnProxies(csvpath):
 	# Opens the proxy CSV
