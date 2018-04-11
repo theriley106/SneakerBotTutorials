@@ -14,17 +14,20 @@ import csv
 from time import gmtime, strftime
 
 app = Flask(__name__, static_url_path='/static')
+# Sets the static folder
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+# Flask settings
 PROXIES = []
-
-
+# Defines initial proxy list
 sessionInfo = {}
-
+# Info about this specific browser session
 bot = main.bot([])
 #bot is initated with a LIST of STRINGS for proxies... not dicts
+TEST_URL = 'http://www.adidas.com/'
+# For the proxy test
 
-# No caching at all for API endpoints.
 @app.after_request
+# No caching at all for API endpoints.
 def add_header(r):
     """
     Add headers to both force latest IE rendering engine or Chrome Frame,
@@ -72,14 +75,20 @@ def getPing(url, ip, port, timeout=8):
 			   'Accept-Language': 'en-US,en;q=0.9'
 			   }
 	start = time.time()
+	# Start time
 	nf = requests.get(url, proxies='{}:{}'.format(ip, port), headers=headers, timeout=timeout)
+	# Makes Request
 	page = nf.content
+	# Makes sure it's succesful
 	nf.close()
+	# Closes out the request
 	end = time.time()
+	# Gets the total time
 	return format((end - start), '.5f')
+	# Returns the ping
 
 def returnTime():
-	#I know this doesn't adjust for local time - will fix this soon
+	# I know this doesn't adjust for local time - will fix this soon
 	return strftime("%H:%M:%S", gmtime())
 
 def massTestProxies(listOfProxies):
@@ -91,8 +100,11 @@ def massTestProxies(listOfProxies):
 			print("testing proxy: {}".format(proxy))
 			proxyInfo = {}
 			ip = proxy.partition(":")[0]
+			# Extracts address
 			port = proxy.partition(':')[2]
-			url = 'http://www.adidas.com/'
+			# Extracts port
+			url = TEST_URL
+			# Sets the URL to TEST_URL constant
 			proxyInfo['IP'] = ip
 			proxyInfo['Port'] = port
 			proxyInfo['Ping'] = getPing('https://whatismyipaddress.com/', ip=ip, port=port)
@@ -112,6 +124,7 @@ def massTestProxies(listOfProxies):
 
 
 def returnProxies(csvpath):
+	# Opens the proxy CSV
 	with open(csvpath, 'rb') as f:
 		reader = csv.reader(f)
 		return list(reader)
