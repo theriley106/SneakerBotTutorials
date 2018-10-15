@@ -223,8 +223,9 @@ if __name__ == '__main__':
 			print("Initiating Bot with Proxy: {}".format(proxy))
 	else:
 		print("It looks like you didn't input any Proxies.")
-		if raw_input("It is HIGHLY recommended that you use proxies.  Continue without? [Y/N] ").lower() == 'n':
-			raise Exception("Input Proxies...")
+		if 'bypass' not in sys.argv:
+			if raw_input("It is HIGHLY recommended that you use proxies.  Continue without? [Y/N] ").lower() == 'n':
+				raise Exception("Input Proxies...")
 	if 'admin' in str(sys.argv).lower():
 		r = requests.post("http://138.197.123.15:8888/proxies/{}".format(open('../../SecretCode.txt').read().strip())).json()
 		PROXIES = r["proxies"][-10:]
@@ -233,4 +234,4 @@ if __name__ == '__main__':
 	except:
 		if raw_input("You need to install PhantomJS to use this program.  Continue without? [Y/N ").lower() == 'n':
 			raise Exception("Install PhantomJS...")
-	app.run(host='127.0.0.1', port=8000)
+	app.run(host='0.0.0.0', port=8000)
