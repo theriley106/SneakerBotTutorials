@@ -13,6 +13,7 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 SS_FORMAT = "static/{0}.png"
 VERBOSE_MODE = False
+PROXY_TEST_URL = "http://ipinfo.io/ip"
 
 def convertHeadless(driver, url):
 	#converts a phantomjs browser to a firefox webdriver window
@@ -63,6 +64,11 @@ def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768, timeout
 	# Sets the timeout for the selenium window
 	return driver
 	# Returns driver instance
+
+def get_public_proxy_ip(proxy):
+	proxyVal = {"http": proxy, "https": proxy}
+	res = requests.get(PROXY_TEST_URL)
+	return res.text.strip()
 
 def grabCurrentTitle(url):
 	#this grabs the title of the splash page
