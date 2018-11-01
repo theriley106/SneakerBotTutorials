@@ -3,6 +3,7 @@ import os
 import requests
 import bs4
 import re
+import time
 import selenium.webdriver
 import RandomHeaders
 import threading
@@ -12,7 +13,9 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 SS_FORMAT = "static/{0}.png"
-VERBOSE_MODE = False
+VERBOSE_MODE = True
+TEST_MODE = True
+# This is a mode that brings up non-headless windows to test with
 PROXY_TEST_URL = "http://ipinfo.io/ip"
 
 def convertHeadless(driver, url):
@@ -46,22 +49,25 @@ def URLGen(model, size):
 
 def createHeadlessBrowser(proxy=None, XResolution=1024, YResolution=768, timeout=20):
 	#proxy = None
-	dcap = dict(DesiredCapabilities.PHANTOMJS)
-	dcap["phantomjs.page.settings.userAgent"] = (
-	    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.86 Safari/537.36')
-	# Fake browser headers
-	if proxy != None:
-		# This means the user set a proxy
-		service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true', '--ssl-protocol=any', '--web-security=false',]
-		driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap)
+	if TEST_MODE == False:
+		dcap = dict(DesiredCapabilities.PHANTOMJS)
+		dcap["phantomjs.page.settings.userAgent"] = (
+		    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.86 Safari/537.36')
+		# Fake browser headers
+		if proxy != None:
+			# This means the user set a proxy
+			service_args = ['--proxy={}'.format(proxy),'--proxy-type=https','--ignore-ssl-errors=true', '--ssl-protocol=any', '--web-security=false',]
+			driver = webdriver.PhantomJS(service_args=service_args, desired_capabilities=dcap)
+		else:
+			# No proxy was set by the user
+			driver = webdriver.PhantomJS(desired_capabilities=dcap)
+		driver.set_window_size(XResolution,YResolution)
+		# Sets the screen resolution
+		# Ideally this will be dynamic based on the number of browsers open
+		driver.set_page_load_timeout(timeout)
+		# Sets the timeout for the selenium window
 	else:
-		# No proxy was set by the user
-		driver = webdriver.PhantomJS(desired_capabilities=dcap)
-	driver.set_window_size(XResolution,YResolution)
-	# Sets the screen resolution
-	# Ideally this will be dynamic based on the number of browsers open
-	driver.set_page_load_timeout(timeout)
-	# Sets the timeout for the selenium window
+		driver = webdriver.Firefox()
 	return driver
 	# Returns driver instance
 
@@ -98,7 +104,7 @@ def verifyProxy(proxy, timeout=10):
 
 class bot(object):
 	#placeholder bot class - will eventually merge a ton of stuff into this
-	def __init__(self, proxy, saveimages=True, url='https://www.google.com/'):
+	def __init__(self, proxy, saveimages=True, url='http://example.com/'):
 		self.headers = HEADERS
 		# Defines the headers that the proxy will use
 		self.proxyList = proxy
@@ -140,6 +146,7 @@ class bot(object):
 		if proxy != None:
 			# This means the user defined the proxy on init
 			driver = createHeadlessBrowser(proxy=proxy)
+			#driver = webdriver.Firefox()
 			# Starts a phantomJS instance with that proxy
 		else:
 			# The user did not define a proxy
@@ -147,8 +154,10 @@ class bot(object):
 			# Creates a phantomJS instance without a proxy
 		try:
 			# Tries to navigate to the URL
+			print("Getting {}".format(self.targetURL))
 			driver.get(self.targetURL)
-		except:
+		except Exception as exp:
+			print("ERROR ON {}".format(exp))
 			# This means the navigation failed, and the proxy is likely not working
 			driver.close()
 			# Closes out the driver
@@ -175,6 +184,8 @@ class bot(object):
 		# This is the proxy that is used that selenium driver instance
 		driver = driver['driver']
 		# This is the selenium webdriver instance
+		print self.targetURL
+		print driver.title
 		driver.get(self.targetURL)
 		# Goes to the url defined at init
 		if VERBOSE_MODE == True:
@@ -188,8 +199,9 @@ class bot(object):
 
 
 	def sendAllToURL(self, url):
+		self.targetURL = url
 		# Sends all of the open instances to a specified URL
-		threads = [threading.Thread(target=self.goToURL, args=(driver, url)) for driver in self.driverList]
+		threads = [threading.Thread(target=self.goToURL, args=(driver,)) for driver in self.driverList]
 		# Creates a list of threads
 		for thread in threads:
 			# Starts all of them
